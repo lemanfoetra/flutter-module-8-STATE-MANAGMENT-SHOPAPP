@@ -42,6 +42,15 @@ class ProductsProvider with ChangeNotifier {
   }
 
   void addProduct() {
-    notifyListeners();
+    
+    //BERFUNGSI UNTUK MEMBERITAHUKAN BAHWA ADA DATA BARU SEHINGGA WIDGET AKAN DI RE-RENDER
+    notifyListeners(); 
   }
+
+
+  Product findById(String id){
+    return items.firstWhere((data) => data.id == id);
+  }
+
+
 }
