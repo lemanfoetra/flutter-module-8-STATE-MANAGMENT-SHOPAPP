@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:shop/screens/product_detail_screen.dart';
+import 'package:provider/provider.dart';
+import '../screens/product_detail_screen.dart';
+import '../providers/product.dart';
 
 class ProductItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imgUrl;
+  // final String id;
+  // final String title;
+  // final String imgUrl;
 
-  ProductItem({this.id, this.title, this.imgUrl});
+  // ProductItem({this.id, this.title, this.imgUrl});
 
   @override
   Widget build(BuildContext context) {
+    
+    final dataProduct = Provider.of<Product>(context);
+
     return InkWell(
       onTap: () {
         Navigator.of(context).pushNamed(
           ProductDetailScreen.routeName,
-          arguments: id,
+          arguments: dataProduct.id,
         );
       },
       child: ClipRRect(
@@ -29,25 +34,25 @@ class ProductItem extends StatelessWidget {
               ),
             ),
             child: Image.network(
-              imgUrl,
+              dataProduct.imageUrl,
               fit: BoxFit.cover,
             ),
           ),
           header: GridTileBar(
             leading: IconButton(
               icon: Icon(
-                Icons.favorite_border,
+                dataProduct.isFavorite ? Icons.favorite : Icons.favorite_border,
                 color: Colors.red,
               ),
               onPressed: () {
-                print('icon favorite');
+                dataProduct.setFavorite();
               },
             ),
           ),
           footer: GridTileBar(
             backgroundColor: Colors.black26,
             title: Text(
-              title,
+              dataProduct.title,
               textAlign: TextAlign.center,
             ),
           ),

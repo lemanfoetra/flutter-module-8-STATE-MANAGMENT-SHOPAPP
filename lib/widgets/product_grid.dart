@@ -6,7 +6,6 @@ import '../providers/product_provider.dart';
 class ProductGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     // Mengambil data product dengan bantuan Provider
     final productData = Provider.of<ProductsProvider>(context);
     final loadedProducts = productData.items;
@@ -19,11 +18,11 @@ class ProductGrid extends StatelessWidget {
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
       ),
+
       itemCount: loadedProducts.length,
-      itemBuilder: (ctx, i) => ProductItem(
-        id: loadedProducts[i].id,
-        title: loadedProducts[i].title,
-        imgUrl: loadedProducts[i].imageUrl,
+      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+        value: loadedProducts[i],
+        child: ProductItem(),
       ),
     );
   }
