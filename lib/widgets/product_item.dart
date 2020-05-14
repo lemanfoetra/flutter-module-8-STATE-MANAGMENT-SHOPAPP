@@ -12,8 +12,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    final dataProduct = Provider.of<Product>(context);
+    final dataProduct = Provider.of<Product>(context, listen: false);
 
     return InkWell(
       onTap: () {
@@ -22,38 +21,42 @@ class ProductItem extends StatelessWidget {
           arguments: dataProduct.id,
         );
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: GridTile(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(
-                color: Colors.grey,
-                width: 0.3,
+      child: Consumer<Product>(
+        builder: (ctx, dataProduct, child) => ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: GridTile(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 0.3,
+                ),
+              ),
+              child: Image.network(
+                dataProduct.imageUrl,
+                fit: BoxFit.cover,
               ),
             ),
-            child: Image.network(
-              dataProduct.imageUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
-          header: GridTileBar(
-            leading: IconButton(
-              icon: Icon(
-                dataProduct.isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: Colors.red,
+            header: GridTileBar(
+              leading: IconButton(
+                icon: Icon(
+                  dataProduct.isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  dataProduct.setFavorite();
+                },
               ),
-              onPressed: () {
-                dataProduct.setFavorite();
-              },
             ),
-          ),
-          footer: GridTileBar(
-            backgroundColor: Colors.black26,
-            title: Text(
-              dataProduct.title,
-              textAlign: TextAlign.center,
+            footer: GridTileBar(
+              backgroundColor: Colors.black26,
+              title: Text(
+                dataProduct.title,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
