@@ -4,11 +4,15 @@ import 'package:provider/provider.dart';
 import '../providers/product_provider.dart';
 
 class ProductGrid extends StatelessWidget {
+
+  final isOnlyFavorite;
+  ProductGrid({this.isOnlyFavorite});
+
   @override
   Widget build(BuildContext context) {
     // Mengambil data product dengan bantuan Provider
     final productData = Provider.of<ProductsProvider>(context);
-    final loadedProducts = productData.items;
+    final loadedProducts = isOnlyFavorite ? productData.getFavoriteItems : productData.items ;
 
     return GridView.builder(
       padding: EdgeInsets.all(10),

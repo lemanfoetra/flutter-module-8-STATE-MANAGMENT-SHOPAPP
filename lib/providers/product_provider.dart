@@ -37,20 +37,13 @@ class ProductsProvider with ChangeNotifier {
     ),
   ];
 
-  bool isFavorite = false;
-
   List<Product> get items {
-
-    if(isFavorite){
-      return [..._items.where((data)=> data.isFavorite == true)];
-    }
     return [..._items];
   }
 
 
-  void setIsFavorite(bool isFav){
-    isFavorite = isFav;
-    notifyListeners();
+  List<Product> get getFavoriteItems {
+    return [..._items.where((data)=> data.isFavorite == true)];
   }
 
 
