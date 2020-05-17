@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/chart_provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../providers/product.dart';
 
@@ -13,6 +14,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataProduct = Provider.of<Product>(context, listen: false);
+    final dataChart = Provider.of<ChartProvider>(context, listen: false);
 
     return InkWell(
       onTap: () {
@@ -53,9 +55,17 @@ class ProductItem extends StatelessWidget {
             ),
             footer: GridTileBar(
               backgroundColor: Colors.black26,
+              leading: IconButton(
+                  icon: Icon(
+                    Icons.shopping_cart,
+                    color: Colors.yellow,
+                  ),
+                  onPressed: () {
+                    dataChart.addChart(
+                        dataProduct.id, dataProduct.price, dataProduct.title);
+                  }),
               title: Text(
                 dataProduct.title,
-                textAlign: TextAlign.center,
               ),
             ),
           ),

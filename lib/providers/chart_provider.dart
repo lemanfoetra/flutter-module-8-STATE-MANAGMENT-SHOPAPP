@@ -15,29 +15,37 @@ class ChartItem {
 }
 
 class ChartProvider with ChangeNotifier {
-  Map<String, ChartItem> _items;
+  Map<String, ChartItem> _items = {};
 
   Map<String, ChartItem> get items {
     return {..._items};
   }
 
+  int get totalChart {
+    return _items != null ? _items.length : 0; 
+  }
+
   void addChart(String productId, double price, String title) {
     if (_items.containsKey(productId)) {
       _items.update(
-          productId,
-          (existingData) => ChartItem(
-              id: existingData.id,
-              price: existingData.price,
-              title: existingData.title,
-              quantity: existingData.quantity + 1));
+        productId,
+        (existingData) => ChartItem(
+            id: existingData.id,
+            price: existingData.price,
+            title: existingData.title,
+            quantity: existingData.quantity + 1),
+      );
     } else {
       _items.putIfAbsent(
-          productId,
-          () => ChartItem(
-              id: DateTime.now().toString(),
-              price: price,
-              title: title,
-              quantity: 1));
+        productId,
+        () => ChartItem(
+            id: DateTime.now().toString(),
+            price: price,
+            title: title,
+            quantity: 1),
+      );
     }
+    notifyListeners();
   }
+
 }
