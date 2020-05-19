@@ -48,4 +48,13 @@ class ChartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+  double get totalPrice {
+    double total = 0.0;
+    _items.forEach((key, chartItem){
+      total += chartItem.price * chartItem.quantity;
+    });
+    return total;
+  }
+
 }

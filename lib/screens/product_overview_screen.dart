@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/screens/cart_screen.dart';
 import 'package:shop/widgets/badge.dart';
 import '../widgets/product_grid.dart';
 import '../providers/chart_provider.dart';
@@ -23,6 +24,10 @@ class _ProductOverviewScreeenState extends State<ProductOverviewScreeen> {
     });
   }
 
+  void toChartScreen(BuildContext context){
+    Navigator.of(context).pushNamed(CartScreen.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     final chart = Provider.of<ChartProvider>(context, listen: false);
@@ -31,15 +36,21 @@ class _ProductOverviewScreeenState extends State<ProductOverviewScreeen> {
       appBar: AppBar(
         title: Text('MyShop'),
         actions: <Widget>[
+
+          // Menu Badge Chart
           Consumer<ChartProvider>(
             builder: (ctx, _, ch) => Badge(
               child: IconButton(
                 icon: Icon(Icons.shopping_cart, color: Colors.white),
-                onPressed: () {},
+                onPressed: () {
+                  toChartScreen(context);
+                },
               ),
               value: chart.totalChart.toString(),
             ),
           ),
+
+          // Menu untuk memfilter List Product
           PopupMenuButton(
             itemBuilder: (_) => [
               PopupMenuItem(
