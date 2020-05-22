@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:shop/providers/product.dart';
 
 class ChartItem {
   final String id;
@@ -55,6 +56,11 @@ class ChartProvider with ChangeNotifier {
       total += chartItem.price * chartItem.quantity;
     });
     return total;
+  }
+
+  void removeItem(String productId){
+    _items.remove(productId);
+    notifyListeners();
   }
 
 }
