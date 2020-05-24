@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../providers/orders_provider.dart' as oiProvider;
 
-class OrderItem extends StatelessWidget {
+class OrderItem extends StatefulWidget {
   final oiProvider.OrderItem order;
 
   OrderItem(this.order);
+
+  @override
+  _OrderItemState createState() => _OrderItemState();
+}
+
+class _OrderItemState extends State<OrderItem> {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +21,45 @@ class OrderItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           ListTile(
-            title: Text("\$${order.amount} "),
+            title: Text("\$${widget.order.amount} "),
             subtitle: Text(
-              DateFormat('mm-dd-yyyy (hh:mm:ss)').format(order.time).toString(),
+              DateFormat('mm-dd-yyyy (hh:mm:ss)')
+                  .format(widget.order.time)
+                  .toString(),
             ),
             trailing: IconButton(
-              icon: Icon(Icons.expand_more),
-              onPressed: () {},
+              icon: isExpanded
+                  ? Icon(Icons.expand_less)
+                  : Icon(Icons.expand_more),
+              onPressed: () {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
             ),
           ),
+          if (isExpanded)
+            Container(
+              padding: EdgeInsets.only(left: 30),
+              height: (80 * widget.order.chartItem.length).toDouble(),
+              child: ListView.builder(
+                itemCount: widget.order.chartItem.length,
+                itemBuilder: (ctx, i) {
+                  var chartItemData = widget.order.chartItem[i];
+                  return Column(
+                    children: <Widget>[
+                      Divider(),
+                      ListTile(
+                        title: Text(chartItemData.title),
+                        subtitle: Text(
+                            "\$ ${chartItemData.price} x ${chartItemData.quantity.toStringAsFixed(0)}"),
+                        onTap: () {},
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
         ],
       ),
     );
