@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/chart_provider.dart';
+import '../providers/orders_provider.dart';
 import '../widgets/chart_item.dart' as ChartItemWidget;
 
 class CartScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chartObject = Provider.of<ChartProvider>(context, listen: false);
+    final chartObject = Provider.of<ChartProvider>(context);
 
     return Scaffold(
       appBar: AppBar(title: Text('Your Cart')),
@@ -31,19 +32,27 @@ class CartScreen extends StatelessWidget {
 
                   // Menampilkan Angka total harga Product
                   Chip(
-                    label: Consumer<ChartProvider>(
-                      builder: (ctx, i, wd) => Text(
-                        "\$ ${chartObject.totalPrice}",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
+                    label: Text(
+                      "\$ ${chartObject.totalPrice}",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
                       ),
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                      // Menambahkan items Chart ke Orders
+                      Provider.of<OrdersProvider>(context).addOrder(
+                        chartObject.items.values.toList(),
+                        chartObject.totalPrice,
+                      );
+
+                      // Menghapus Chart Item
+                      chartObject.clear();
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
