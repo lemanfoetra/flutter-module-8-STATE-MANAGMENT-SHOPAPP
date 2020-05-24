@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/screens/cart_screen.dart';
-import 'package:shop/widgets/badge.dart';
+
+
+import '../screens/cart_screen.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/badge.dart';
 import '../widgets/product_grid.dart';
 import '../providers/chart_provider.dart';
 
@@ -24,7 +27,7 @@ class _ProductOverviewScreeenState extends State<ProductOverviewScreeen> {
     });
   }
 
-  void toChartScreen(BuildContext context){
+  void toChartScreen(BuildContext context) {
     Navigator.of(context).pushNamed(CartScreen.routeName);
   }
 
@@ -36,7 +39,6 @@ class _ProductOverviewScreeenState extends State<ProductOverviewScreeen> {
       appBar: AppBar(
         title: Text('MyShop'),
         actions: <Widget>[
-
           // Menu Badge Chart
           Consumer<ChartProvider>(
             builder: (ctx, _, ch) => Badge(
@@ -72,6 +74,7 @@ class _ProductOverviewScreeenState extends State<ProductOverviewScreeen> {
           )
         ],
       ),
+      drawer: AppDrawers(),
       body: ProductGrid(
         isOnlyFavorite: onlyFavorite,
       ),
