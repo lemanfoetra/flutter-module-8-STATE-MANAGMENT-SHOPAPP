@@ -63,4 +63,10 @@ class ChartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+  void clear(){
+    _items = {};
+    notifyListeners();
+  }
+
 }
